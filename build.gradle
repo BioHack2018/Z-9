@@ -1,0 +1,63 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	  
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.biokack'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+ maven {
+        url "http://maven.vaadin.com/vaadin-addons"
+        mavenCentral()
+    }
+}
+
+
+ext {
+	vaadinVersion = '8.4.1'
+}
+
+dependencies {
+	compile('com.vaadin:vaadin-spring-boot-starter')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+	compile (group: 'org.biojava', name: 'biojava-core',  version: '5.0.1'){
+  		exclude group: "org.apache.logging.log4j", module: "log4j-slf4j-impl"
+  		exclude group: "org.apache.logging.log4j", module: "log4j-api"
+  		exclude group: "org.apache.logging.log4j", module: "log4j-core"
+  	}
+  	
+	compile( group: 'org.biojava', name: 'biojava-alignment', version: '5.0.1'){
+  		exclude group: "org.apache.logging.log4j", module: "log4j-slf4j-impl"
+  		exclude group: "org.apache.logging.log4j", module: "log4j-api"
+  		exclude group: "org.apache.logging.log4j", module: "log4j-core"
+  	}
+  	
+  	compile( group: 'org.biojava', name: 'biojava-sequencing', version: '4.2.11'){
+  		exclude group: "org.apache.logging.log4j", module: "log4j-slf4j-impl"
+  		exclude group: "org.apache.logging.log4j", module: "log4j-api"
+  		exclude group: "org.apache.logging.log4j", module: "log4j-core"
+  	}
+  	
+}
+	
+dependencyManagement {
+	imports {
+		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+	}
+}
